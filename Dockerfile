@@ -7,7 +7,7 @@ ARG USER_GID=1000
 RUN apt update && \
   apt install -y --no-install-recommends \
   apt-transport-https gnupg ca-certificates \
-  zsh curl unzip build-essential git nano \
+  ssh zsh curl unzip build-essential git nano \
   sudo && \
   rm -rf /var/lib/apt/lists/*
 
