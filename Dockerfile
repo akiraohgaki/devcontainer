@@ -6,9 +6,9 @@ ARG USER_GID=1000
 
 RUN apt update && \
   apt install -y --no-install-recommends \
-  apt-transport-https gnupg ca-certificates \
-  ssh zsh curl unzip build-essential git nano \
-  python3 python3-distutils \
+  apt-transport-https gnupg ca-certificates ssh \
+  zsh curl unzip nano git \
+  build-essential python3 python3-distutils \
   sudo && \
   rm -rf /var/lib/apt/lists/*
 
