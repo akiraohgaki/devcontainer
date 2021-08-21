@@ -2,9 +2,9 @@ FROM docker.io/library/ubuntu:latest
 
 ARG USER_UID=1000
 ARG USER_GID=1000
-ARG USER_USERNAME=ubuntu
-ARG USER_GROUPNAME=ubuntu
-ARG USER_PASSWORD=ubuntu
+ARG USER_USERNAME=developer
+ARG USER_GROUPNAME=developer
+ARG USER_PASSWORD=developer
 
 RUN apt update && \
   DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends \
@@ -34,13 +34,13 @@ RUN groupadd -g ${USER_GID} ${USER_GROUPNAME} && \
   echo "${USER_USERNAME}:${USER_PASSWORD}" | chpasswd && \
   echo "${USER_USERNAME} ALL=(ALL) NOPASSWD: ALL" >>/etc/sudoers
 
-USER ${USER_USERNAME}
-
-WORKDIR /home/${USER_USERNAME}
-
 COPY entrypoint.sh /entrypoint.sh
 
 RUN chmod 755 /entrypoint.sh
+
+USER ${USER_USERNAME}
+
+WORKDIR /home/${USER_USERNAME}
 
 ENTRYPOINT ["/entrypoint.sh"]
 
