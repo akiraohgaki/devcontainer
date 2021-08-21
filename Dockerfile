@@ -1,27 +1,47 @@
 FROM docker.io/library/ubuntu:latest
 
-ARG USERNAME=ubuntu
 ARG USER_UID=1000
 ARG USER_GID=1000
+ARG USER_USERNAME=ubuntu
+ARG USER_GROUPNAME=ubuntu
+ARG USER_PASSWORD=ubuntu
 
 RUN apt update && \
-  apt install -y --no-install-recommends \
-  apt-transport-https gnupg ca-certificates ssh \
-  zsh curl unzip nano git \
-  build-essential python3 python3-distutils \
+  DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends \
+  apt-transport-https \
+  ca-certificates \
+  gnupg \
+  ssh \
+  zsh \
+  curl \
+  unzip \
+  nano \
+  git \
+  build-essential \
+  python3 \
+  python3-distutils \
   sudo && \
+  apt clean && \
   rm -rf /var/lib/apt/lists/*
 
 RUN curl -sSLf https://raw.githubusercontent.com/tj/n/master/bin/n -o /usr/local/bin/n && \
   chmod 755 /usr/local/bin/n && \
   n lts
 
-RUN groupadd -g ${USER_GID} ${USERNAME} && \
-  useradd -m -s /bin/bash -u ${USER_UID} -g ${USER_GID} ${USERNAME} && \
-  gpasswd -a ${USERNAME} sudo && \
-  echo "${USERNAME}:${USERNAME}" | chpasswd && \
-  echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" >>/etc/sudoers
+RUN groupadd -g ${USER_GID} ${USER_GROUPNAME} && \
+  useradd -m -s /bin/bash -u ${USER_UID} -g ${USER_GID} ${USER_USERNAME} && \
+  gpasswd -a ${USER_USERNAME} sudo && \
+  echo "${USER_USERNAME}:${USER_PASSWORD}" | chpasswd && \
+  echo "${USER_USERNAME} ALL=(ALL) NOPASSWD: ALL" >>/etc/sudoers
 
-USER ${USERNAME}
+USER ${USER_USERNAME}
 
-WORKDIR /home/${USERNAME}
+WORKDIR /home/${USER_USERNAME}
+
+COPY entrypoint.sh /entrypoint.sh
+
+RUN chmod 755 /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+
+CMD ["/bin/bash"]
