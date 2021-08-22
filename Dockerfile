@@ -11,16 +11,17 @@ RUN apt update && \
   apt-transport-https \
   ca-certificates \
   gnupg \
-  ssh \
-  zsh \
   curl \
+  sudo \
+  zsh \
+  ssh \
   unzip \
   nano \
   git \
   build-essential \
   python3 \
-  python3-distutils \
-  sudo && \
+  python3-distutils && \
+  apt autoremove && \
   apt clean && \
   rm -rf /var/lib/apt/lists/*
 
