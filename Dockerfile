@@ -21,7 +21,6 @@ RUN apt update && \
   build-essential \
   python3 \
   python3-distutils && \
-  apt autoremove && \
   apt clean && \
   rm -rf /var/lib/apt/lists/*
 
