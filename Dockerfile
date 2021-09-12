@@ -20,8 +20,7 @@ RUN apt update && \
   git \
   build-essential \
   python3 \
-  python3-distutils \
-  golang && \
+  python3-distutils && \
   apt clean && \
   rm -rf /var/lib/apt/lists/*
 
